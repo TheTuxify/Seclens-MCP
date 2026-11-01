@@ -3,3 +3,11 @@
 **/*.rs.bk
 *.log
 .env
+
+# Local Workspace Directories (Not for GitHub)
+rules/
+skills/
+prompt/
+work/
+tmp/
+
