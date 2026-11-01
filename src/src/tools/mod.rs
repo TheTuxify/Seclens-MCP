@@ -1,9 +1,12 @@
+pub mod cloud_bucket;
 pub mod cors;
 pub mod dns_email;
 pub mod dns_resilience;
+pub mod docker;
 pub mod files;
 pub mod headers;
 pub mod jwt;
+pub mod nginx;
 pub mod openapi;
 pub mod report;
 pub mod secrets;
@@ -165,6 +168,48 @@ pub fn list_tools() -> Vec<ToolDefinition> {
                 "required": ["target"]
             }),
         },
+        ToolDefinition {
+            name: "audit_docker_security".to_string(),
+            description: "Audits Dockerfile and docker-compose.yml configurations against CIS Docker Benchmark for root container execution, unpinned base images, ADD/sudo misuse, socket mounts, privileged mode, and dangerous Linux capabilities.".to_string(),
+            input_schema: json!({
+                "type": "object",
+                "properties": {
+                    "path": {
+                        "type": "string",
+                        "description": "Path to Dockerfile, docker-compose.yml, or directory containing container configs (e.g. '.' or './deploy/Dockerfile')"
+                    }
+                },
+                "required": ["path"]
+            }),
+        },
+        ToolDefinition {
+            name: "lint_nginx_config".to_string(),
+            description: "Lints Nginx web server configuration files (nginx.conf or sites-available) for critical Off-by-Slash directory traversals, missing buffer overflow defenses, insecure WebDAV methods, missing defense headers, and obsolete SSL/TLS ciphers.".to_string(),
+            input_schema: json!({
+                "type": "object",
+                "properties": {
+                    "path": {
+                        "type": "string",
+                        "description": "Path to nginx.conf, sites-available file, or Nginx config directory (e.g. '/etc/nginx/nginx.conf' or './nginx.conf')"
+                    }
+                },
+                "required": ["path"]
+            }),
+        },
+        ToolDefinition {
+            name: "check_cloud_bucket_leak".to_string(),
+            description: "Scans public cloud object storage providers (AWS S3, Google Cloud Storage, Azure Blob Storage, DigitalOcean Spaces) for open or misconfigured public buckets associated with a company or brand name.".to_string(),
+            input_schema: json!({
+                "type": "object",
+                "properties": {
+                    "target_name": {
+                        "type": "string",
+                        "description": "Target company name, domain, or brand prefix to audit (e.g. 'acme', 'example.com', 'mycorp-data')"
+                    }
+                },
+                "required": ["target_name"]
+            }),
+        },
     ]
 }
 
@@ -207,6 +252,18 @@ pub async fn dispatch_tool(name: &str, args: Value, engine: &Engine) -> ToolCall
             Err(e) => ToolCallResult::error(e),
         },
         "generate_security_report" => match report::run(args, engine).await {
+            Ok(output) => ToolCallResult::text(output),
+            Err(e) => ToolCallResult::error(e),
+        },
+        "audit_docker_security" => match docker::run(args).await {
+            Ok(output) => ToolCallResult::text(output),
+            Err(e) => ToolCallResult::error(e),
+        },
+        "lint_nginx_config" => match nginx::run(args).await {
+            Ok(output) => ToolCallResult::text(output),
+            Err(e) => ToolCallResult::error(e),
+        },
+        "check_cloud_bucket_leak" => match cloud_bucket::run(args, engine).await {
             Ok(output) => ToolCallResult::text(output),
             Err(e) => ToolCallResult::error(e),
         },

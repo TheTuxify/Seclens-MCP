@@ -14,7 +14,10 @@
         "check_email_security",
         "check_dns_resilience",
         "scan_hardcoded_secrets",
-        "generate_security_report"
+        "generate_security_report",
+        "audit_docker_security",
+        "lint_nginx_config",
+        "check_cloud_bucket_leak"
       ]
     }
   }

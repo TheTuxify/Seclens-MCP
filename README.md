@@ -17,7 +17,7 @@
 
 ---
 
-## 🛠 Features & Tool Suite (10 Security Auditing Tools)
+## 🛠 Features & Tool Suite (13 Security Auditing Tools)
 
 | Tool Name | Scope & Category | Description (EN) | توضیحات فارسی |
 | :--- | :--- | :--- | :--- |
@@ -31,6 +31,9 @@
 | **`check_email_security`** | Domain Hygiene | Direct DNS queries evaluating SPF mechanism validity, RFC 7208 10-lookup limits, DMARC policy enforcement (`reject`/`quarantine`), and DKIM selectors. | ارزیابی ضداسپم و ضدجعل ایمیل (SPF/DMARC/DKIM) با کوئری مستقیم DNS و محاسبه شاخص مقاومت در برابر فیشینگ. |
 | **`check_dns_resilience`** | DNS Infrastructure | Checks CAA certificate issuance scoping, DNSSEC cryptographic signing (DNSKEY/DS), and scans dangling CNAMEs for Subdomain Takeover risks. | ممیزی رکوردهای CAA، تایید امضای دیجیتال DNSSEC و کشف رکوردهای معلق CNAME مستعد آسیب‌پذیری Takeover. |
 | **`scan_hardcoded_secrets`** | Local Static SAST | Scans codebase for 15+ API keys (Telegram, OpenAI, Anthropic, Gemini, Groq, Stripe, AWS, DB URIs) and uncatalogued tokens via Shannon Entropy (>4.5). | اسکنر محلی اسرار: کشف ۱۵+ کلید ابری، توکن‌های دیتابیس و رشته‌های تصادفی با محاسبه آنتروپی شانون و ماسک امن. |
+| **`audit_docker_security`** | Infrastructure & Containers | Audits Dockerfile and docker-compose.yml files against CIS Docker Benchmark for root execution, unpinned images, ADD/sudo misuse, socket mounts, and capabilities. | ارزیابی امنیتی کانتینرها طبق CIS Docker: روت، ایمیج‌های پین‌نشده، سوکت داکر، حالت privileged و قابلیت‌های پرخطر. |
+| **`lint_nginx_config`** | Infrastructure & Web Server | Lints Nginx configs for Off-by-Slash directory traversals, buffer overflow defenses, insecure WebDAV methods, and missing security headers. | لنت و ممیزی تخصصی کانفیگ Nginx: آسیب‌پذیری بحرانی Off-by-Slash در alias، تنظیمات بافر، متدهای WebDAV و هدرها. |
+| **`check_cloud_bucket_leak`** | Cloud Object Storage | Scans AWS S3, Google Cloud Storage, Azure Blob, and DigitalOcean Spaces for open unauthenticated buckets and data pool exposures. | کشف سطلهای ابری باز و نشت‌کرده در ارائه‌دهندگان ابری (AWS S3, GCP, Azure, DO) و هشدار دسترسی عمومی به فایل‌ها. |
 
 ---
 
