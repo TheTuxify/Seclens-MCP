@@ -17,7 +17,7 @@
 
 ---
 
-## 🛠 Features & Tool Suite (13 Security Auditing Tools)
+## 🛠 Features & Tool Suite (18 Security Auditing Tools)
 
 | Tool Name | Scope & Category | Description (EN) | توضیحات فارسی |
 | :--- | :--- | :--- | :--- |
@@ -34,6 +34,11 @@
 | **`audit_docker_security`** | Infrastructure & Containers | Audits Dockerfile and docker-compose.yml files against CIS Docker Benchmark for root execution, unpinned images, ADD/sudo misuse, socket mounts, and capabilities. | ارزیابی امنیتی کانتینرها طبق CIS Docker: روت، ایمیج‌های پین‌نشده، سوکت داکر، حالت privileged و قابلیت‌های پرخطر. |
 | **`lint_nginx_config`** | Infrastructure & Web Server | Lints Nginx configs for Off-by-Slash directory traversals, buffer overflow defenses, insecure WebDAV methods, and missing security headers. | لنت و ممیزی تخصصی کانفیگ Nginx: آسیب‌پذیری بحرانی Off-by-Slash در alias، تنظیمات بافر، متدهای WebDAV و هدرها. |
 | **`check_cloud_bucket_leak`** | Cloud Object Storage | Scans AWS S3, Google Cloud Storage, Azure Blob, and DigitalOcean Spaces for open unauthenticated buckets and data pool exposures. | کشف سطلهای ابری باز و نشت‌کرده در ارائه‌دهندگان ابری (AWS S3, GCP, Azure, DO) و هشدار دسترسی عمومی به فایل‌ها. |
+| **`audit_client_scripts`** | Client-Side & Frontend | Audits HTML scripts & stylesheets for Subresource Integrity (SRI) on external CDNs, mixed content HTTP, and outdated libraries (jQuery, Lodash, Angular). | ممیزی فرانت‌اند: بررسی یکپارچگی ساب‌ریسورس (SRI)، نشت اسکریپت‌های CDN و شناسایی کتابخانه‌های منسوخ و آسیب‌پذیر. |
+| **`inspect_robots_and_sitemap`** | Reconnaissance & Crawlers | Analyzes robots.txt and sitemap.xml for exposed administrative panels, internal staging environments, API routes, and sensitive backup directories. | تحلیل robots.txt و نقشه سایت: کشف پنل‌های ادمین و روت‌های محرمانه افشاشده در دایرکتیوهای Disallow. |
+| **`audit_graphql_security`** | Advanced API Security | Probes GraphQL endpoints for full schema Introspection exposure, field suggestion brute-forcing, GET query execution, and interactive IDE consoles. | ارزیابی عمیق GraphQL: تست اینتروسپکشن اسکیما، پیشنهاد فیلد (Did you mean)، متد GET و افشای کنسول‌های Playground/GraphiQL. |
+| **`check_rate_limit_resilience`** | Traffic & Resilience | Dispatches controlled burst probes measuring HTTP 429 throttling enforcement and parsing standard RateLimit telemetry headers. | بررسی تاب‌آوری ریت‌لیمیت: آزمون پایداری در برابر حملات Brute-Force و استخراج هدرهای استاندارد RateLimit و پنجره ریست. |
+| **`audit_dependencies`** | Supply Chain & SCA | Audits Cargo.lock, package.json, or requirements.txt against Google's Open Source Vulnerabilities (OSV) API for CVEs/GHSAs and fixed upgrade versions. | ممیزی زنجیره تأمین نرم‌افزار: تحلیل آنی آسیب‌پذیری‌های وابستگی‌های پروژه با API رسمی دیتابیس امنیتی Google OSV. |
 
 ---
 

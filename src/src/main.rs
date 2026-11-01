@@ -9,7 +9,7 @@ use serde_json::json;
 use std::io::{self, BufRead, Write};
 use tracing::{error, info};
 
-const VERSION: &str = "1.1.0";
+const VERSION: &str = "1.2.0";
 
 fn print_help() {
     println!(

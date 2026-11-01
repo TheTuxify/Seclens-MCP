@@ -17,7 +17,12 @@
         "generate_security_report",
         "audit_docker_security",
         "lint_nginx_config",
-        "check_cloud_bucket_leak"
+        "check_cloud_bucket_leak",
+        "audit_client_scripts",
+        "inspect_robots_and_sitemap",
+        "audit_graphql_security",
+        "check_rate_limit_resilience",
+        "audit_dependencies"
       ]
     }
   }

@@ -1,14 +1,19 @@
+pub mod client_scripts;
 pub mod cloud_bucket;
 pub mod cors;
+pub mod dependencies;
 pub mod dns_email;
 pub mod dns_resilience;
 pub mod docker;
 pub mod files;
+pub mod graphql;
 pub mod headers;
 pub mod jwt;
 pub mod nginx;
 pub mod openapi;
+pub mod rate_limit;
 pub mod report;
+pub mod robots_sitemap;
 pub mod secrets;
 pub mod tls;
 
@@ -210,6 +215,87 @@ pub fn list_tools() -> Vec<ToolDefinition> {
                 "required": ["target_name"]
             }),
         },
+        ToolDefinition {
+            name: "audit_client_scripts".to_string(),
+            description: "Scans target web page HTML to audit client-side scripts and stylesheets for Subresource Integrity (SRI) on external CDNs, mixed content HTTP, and outdated vulnerable libraries (e.g. jQuery < 3.5.0, AngularJS 1.x, Lodash < 4.17.21).".to_string(),
+            input_schema: json!({
+                "type": "object",
+                "properties": {
+                    "url": {
+                        "type": "string",
+                        "description": "Target web page URL (e.g. https://example.com)"
+                    }
+                },
+                "required": ["url"]
+            }),
+        },
+        ToolDefinition {
+            name: "inspect_robots_and_sitemap".to_string(),
+            description: "Fetches and analyzes robots.txt and sitemap.xml to discover exposed admin dashboards, internal staging environments, API routes, and sensitive backup directories disclosed to search crawlers.".to_string(),
+            input_schema: json!({
+                "type": "object",
+                "properties": {
+                    "url": {
+                        "type": "string",
+                        "description": "Target website base URL (e.g. https://example.com)"
+                    }
+                },
+                "required": ["url"]
+            }),
+        },
+        ToolDefinition {
+            name: "audit_graphql_security".to_string(),
+            description: "Probes GraphQL endpoints (/graphql, /api/graphql) for full schema Introspection leakage, field suggestion brute-force hazards, GET method query execution, and exposed interactive Playground/GraphiQL consoles.".to_string(),
+            input_schema: json!({
+                "type": "object",
+                "properties": {
+                    "url": {
+                        "type": "string",
+                        "description": "Target website URL or GraphQL endpoint (e.g. https://api.example.com/graphql or https://example.com)"
+                    }
+                },
+                "required": ["url"]
+            }),
+        },
+        ToolDefinition {
+            name: "check_rate_limit_resilience".to_string(),
+            description: "Sends controlled sequential burst probes to test web application rate-limiting resilience, evaluating HTTP 429 Too Many Requests enforcement and standard RateLimit telemetry headers.".to_string(),
+            input_schema: json!({
+                "type": "object",
+                "properties": {
+                    "url": {
+                        "type": "string",
+                        "description": "Target API or web URL to test (e.g. https://api.example.com/login)"
+                    },
+                    "probes_count": {
+                        "type": "integer",
+                        "description": "Number of rapid probes to dispatch (default: 5, range: 3-15)",
+                        "default": 5
+                    }
+                },
+                "required": ["url"]
+            }),
+        },
+        ToolDefinition {
+            name: "audit_dependencies".to_string(),
+            description: "Audits software dependency manifests (Cargo.toml/Cargo.lock, package.json, requirements.txt) against Google's Open Source Vulnerabilities (OSV) API for known CVEs/GHSAs and recommended upgrade versions.".to_string(),
+            input_schema: json!({
+                "type": "object",
+                "properties": {
+                    "manifest_content": {
+                        "type": "string",
+                        "description": "Raw string content of dependency manifest file (Cargo.toml, package.json, requirements.txt, etc.)"
+                    },
+                    "ecosystem": {
+                        "type": "string",
+                        "description": "Package ecosystem: 'crates.io' (Rust), 'npm' (Node.js), or 'PyPI' (Python). Default: 'npm'",
+                        "enum": ["crates.io", "npm", "PyPI"],
+                        "default": "npm"
+                    }
+                },
+                "required": ["manifest_content"]
+            }),
+        },
     ]
 }
 
@@ -264,6 +350,26 @@ pub async fn dispatch_tool(name: &str, args: Value, engine: &Engine) -> ToolCall
             Err(e) => ToolCallResult::error(e),
         },
         "check_cloud_bucket_leak" => match cloud_bucket::run(args, engine).await {
+            Ok(output) => ToolCallResult::text(output),
+            Err(e) => ToolCallResult::error(e),
+        },
+        "audit_client_scripts" => match client_scripts::run(args, engine).await {
+            Ok(output) => ToolCallResult::text(output),
+            Err(e) => ToolCallResult::error(e),
+        },
+        "inspect_robots_and_sitemap" => match robots_sitemap::run(args, engine).await {
+            Ok(output) => ToolCallResult::text(output),
+            Err(e) => ToolCallResult::error(e),
+        },
+        "audit_graphql_security" => match graphql::run(args, engine).await {
+            Ok(output) => ToolCallResult::text(output),
+            Err(e) => ToolCallResult::error(e),
+        },
+        "check_rate_limit_resilience" => match rate_limit::run(args, engine).await {
+            Ok(output) => ToolCallResult::text(output),
+            Err(e) => ToolCallResult::error(e),
+        },
+        "audit_dependencies" => match dependencies::run(args, engine).await {
             Ok(output) => ToolCallResult::text(output),
             Err(e) => ToolCallResult::error(e),
         },

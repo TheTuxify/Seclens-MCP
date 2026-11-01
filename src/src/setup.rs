@@ -15,7 +15,7 @@ pub struct SetupSummary {
 
 /// Executes auto-detection and registration across all supported AI assistants
 pub fn run_setup() -> Result<(), Box<dyn std::error::Error>> {
-    println!("\x1b[38;2;255;215;0m=== SecLens-MCP Auto-Setup Engine (v1.1.0) ===\x1b[0m\n");
+    println!("\x1b[38;2;255;215;0m=== SecLens-MCP Auto-Setup Engine (v1.2.0) ===\x1b[0m\n");
     println!("Scanning system for installed AI developer environments...\n");
 
     let home = home_dir();
@@ -261,7 +261,12 @@ fn setup_antigravity(home: &Path) -> Result<bool, Box<dyn std::error::Error>> {
                 "generate_security_report",
                 "audit_docker_security",
                 "lint_nginx_config",
-                "check_cloud_bucket_leak"
+                "check_cloud_bucket_leak",
+                "audit_client_scripts",
+                "inspect_robots_and_sitemap",
+                "audit_graphql_security",
+                "check_rate_limit_resilience",
+                "audit_dependencies"
             ]
         });
 
