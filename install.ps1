@@ -60,4 +60,9 @@ if ($UserPath -notlike "*$InstallDir*") {
 
 Write-Host "`n[✓] SecLens-MCP installed successfully!" -ForegroundColor Green
 Write-Host "[*] Binary path: $InstallDir\$BinName" -ForegroundColor Yellow
-Write-Host "`nYou can now configure SecLens in Claude Desktop, Cursor or Antigravity." -ForegroundColor White
+
+# Auto-configure MCP in detected AI assistants
+Write-Host "[*] Auto-configuring MCP server in detected AI assistants..." -ForegroundColor Cyan
+if (Test-Path "$InstallDir\$BinName") {
+    & "$InstallDir\$BinName" setup
+}

@@ -1,5 +1,6 @@
 mod engine;
 mod protocol;
+mod setup;
 mod tools;
 
 use engine::Engine;
@@ -8,8 +9,59 @@ use serde_json::json;
 use std::io::{self, BufRead, Write};
 use tracing::{error, info};
 
+const VERSION: &str = "1.0.1";
+
+fn print_help() {
+    println!(
+        "\x1b[38;2;255;215;0mSecLens-MCP: High-Performance Security Auditing & Reconnaissance Engine (v{})\x1b[0m
+
+\x1b[1mUSAGE:\x1b[0m
+    seclens-mcp [SUBCOMMAND / OPTION]
+
+\x1b[1mSUBCOMMANDS:\x1b[0m
+    setup, --setup       Auto-configure MCP server in detected AI assistants:
+                         - Google Antigravity (~/.gemini/antigravity-cli/settings.json)
+                         - Claude Desktop (Linux, macOS, Windows)
+                         - Zed Editor (~/.config/zed/settings.json)
+                         - Cursor IDE (mcp.json)
+                         - Hermes Agent (hermes CLI integration)
+
+\x1b[1mOPTIONS:\x1b[0m
+    -V, --version        Print version information and exit
+    -h, --help           Print this help message and exit
+
+\x1b[1mDEFAULT:\x1b[0m
+    When run without arguments, seclens-mcp starts the JSON-RPC 2.0 stdio server
+    for communication with MCP client applications.",
+        VERSION
+    );
+}
+
 #[tokio::main]
 async fn main() -> Result<(), Box<dyn std::error::Error>> {
+    let args: Vec<String> = std::env::args().collect();
+    if args.len() > 1 {
+        match args[1].as_str() {
+            "--version" | "-V" => {
+                println!("seclens-mcp {}", VERSION);
+                return Ok(());
+            }
+            "--help" | "-h" => {
+                print_help();
+                return Ok(());
+            }
+            "setup" | "--setup" => {
+                setup::run_setup()?;
+                return Ok(());
+            }
+            unknown => {
+                eprintln!("Unknown argument: {}", unknown);
+                print_help();
+                std::process::exit(1);
+            }
+        }
+    }
+
     // Log exclusively to stderr so JSON-RPC on stdout remains clean
     tracing_subscriber::fmt()
         .with_writer(io::stderr)
@@ -75,7 +127,7 @@ async fn handle_request(req: JsonRpcRequest, engine: &Engine) -> JsonRpcResponse
                 },
                 "serverInfo": {
                     "name": "seclens-mcp",
-                    "version": "1.0.0"
+                    "version": VERSION
                 }
             });
             JsonRpcResponse::success(req.id, result)

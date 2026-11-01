@@ -119,3 +119,11 @@ $SUDO cp "${TEMP_DIR}/${BIN_NAME}" "${INSTALL_DIR}/${BIN_NAME}"
 echo -e "\n${GREEN}[✓] SecLens-MCP installed successfully to ${INSTALL_DIR}/${BIN_NAME}!${NC}"
 echo -e "${GOLD}To verify installation, run:${NC}"
 echo -e "  ${BIN_NAME} --version\n"
+
+# 4. Auto-configure MCP in detected AI assistants
+echo -e "${BLUE}[*] Auto-configuring MCP server in detected AI assistants...${NC}"
+if [ -x "${INSTALL_DIR}/${BIN_NAME}" ]; then
+    "${INSTALL_DIR}/${BIN_NAME}" setup || true
+elif command -v "${BIN_NAME}" >/dev/null 2>&1; then
+    "${BIN_NAME}" setup || true
+fi

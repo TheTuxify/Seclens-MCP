@@ -1,6 +1,6 @@
 [package]
 name = "seclens-mcp"
-version = "1.0.0"
+version = "1.0.1"
 edition = "2021"
 authors = ["Tuxify <https://t.me/thetuxify>"]
 description = "High-performance, async security auditing and web reconnaissance MCP server in Rust"
