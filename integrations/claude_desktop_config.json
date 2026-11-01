@@ -1,0 +1,11 @@
+{
+  "mcpServers": {
+    "seclens": {
+      "command": "seclens-mcp",
+      "args": [],
+      "env": {
+        "RUST_LOG": "info"
+      }
+    }
+  }
+}

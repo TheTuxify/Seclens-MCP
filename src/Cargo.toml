@@ -1,0 +1,37 @@
+[package]
+name = "seclens-mcp"
+version = "1.0.0"
+edition = "2021"
+authors = ["Tuxify <https://t.me/thetuxify>"]
+description = "High-performance, async security auditing and web reconnaissance MCP server in Rust"
+license = "MIT"
+repository = "https://github.com/thetuxify/seclens-mcp"
+keywords = ["mcp", "security", "pentest", "scanner", "recon"]
+categories = ["command-line-utilities", "development-tools"]
+
+[dependencies]
+tokio = { version = "1.40", features = ["full"] }
+serde = { version = "1.0", features = ["derive"] }
+serde_json = "1.0"
+reqwest = { version = "0.12", default-features = false, features = ["rustls-tls", "json", "http2"] }
+regex = "1.10"
+chrono = { version = "0.4", features = ["serde"] }
+thiserror = "1.0"
+tracing = "0.1"
+tracing-subscriber = { version = "0.3", features = ["env-filter"] }
+base64 = "0.22"
+futures = "0.3"
+ring = "0.17"
+rustls = { version = "0.23", default-features = false, features = ["ring"] }
+tokio-rustls = { version = "0.26", default-features = false, features = ["ring", "tls12"] }
+webpki-roots = "1.0"
+x509-parser = "0.18"
+rustls-pki-types = "1.15"
+hickory-resolver = "0.26"
+
+[profile.release]
+opt-level = 3
+lto = true
+codegen-units = 1
+panic = "abort"
+strip = true

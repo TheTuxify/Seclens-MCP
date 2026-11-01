@@ -1,0 +1,10 @@
+{
+  "context_servers": {
+    "seclens": {
+      "command": {
+        "path": "seclens-mcp",
+        "args": []
+      }
+    }
+  }
+}

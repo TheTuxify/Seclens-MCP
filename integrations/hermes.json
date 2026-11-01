@@ -1,0 +1,9 @@
+{
+  "mcpServers": {
+    "seclens": {
+      "command": "seclens-mcp",
+      "args": [],
+      "description": "SecLens-MCP: High-Performance Security Auditing & Reconnaissance Engine"
+    }
+  }
+}

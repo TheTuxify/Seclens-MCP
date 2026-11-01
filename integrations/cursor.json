@@ -1,0 +1,10 @@
+{
+  "mcp": {
+    "servers": {
+      "seclens": {
+        "command": "seclens-mcp",
+        "args": []
+      }
+    }
+  }
+}

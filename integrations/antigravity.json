@@ -1,0 +1,21 @@
+{
+  "mcpServers": {
+    "seclens": {
+      "command": "seclens-mcp",
+      "args": [],
+      "disabled": false,
+      "alwaysAllow": [
+        "check_security_headers",
+        "detect_exposed_files",
+        "audit_cors_policy",
+        "analyze_jwt_token",
+        "inspect_tls_certificate",
+        "audit_openapi_spec",
+        "check_email_security",
+        "check_dns_resilience",
+        "scan_hardcoded_secrets",
+        "generate_security_report"
+      ]
+    }
+  }
+}
